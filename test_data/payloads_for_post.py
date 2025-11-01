@@ -1,4 +1,4 @@
-default_payload = {
+default_post_payload = {
     "text": "Лучший способ выучить язык - это общаться с его носителем. Программисты на питоне:",
     "url": "https://cvam.ru/wp-content/uploads/2023/09/garri-potter-programmist-1.webp",
     "tags": [
@@ -105,9 +105,7 @@ payload_incorrect_type_for_tags = {
 
 payload_incorrect_type_for_url = {
     "text": "Лучший способ выучить язык - это общаться с его носителем. Программисты на питоне:",
-    "url": {
-        "test"
-    },
+    "url": 123,
     "tags": [
         "python",
         "garri-potter",

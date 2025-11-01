@@ -1,8 +1,8 @@
-from test_api_meme.config import Base_URL
+from config import Base_URL
 
 import requests
 
-from test_api_meme.test_data.credentional import default_user
+from test_data.credentional import default_user
 
 
 class GetToken:

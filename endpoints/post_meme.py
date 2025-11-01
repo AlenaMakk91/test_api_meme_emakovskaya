@@ -3,16 +3,15 @@ import logging
 import allure
 import requests
 
-from test_api_meme.config import Base_URL
-from test_api_meme.endpoints.endpoint import Endpoint
+from config import Base_URL
+from endpoints.endpoint import Endpoint
 
 
-class PutMeme(Endpoint):
-    @allure.step('Вызов ендпоинта PUT /meme/<id>')
-    def put_meme(self, headers, payload, new_meme_id):
-        payload['id'] = new_meme_id
-        self.response = requests.put(
-            url=f'{Base_URL}/meme/{new_meme_id}',
+class PostMeme(Endpoint):
+    @allure.step('Вызов ендпоинта POST /meme')
+    def post_meme(self, headers, payload):
+        self.response = requests.post(
+            url=f'{Base_URL}/meme',
             headers=headers,
             json=payload
         )

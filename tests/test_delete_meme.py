@@ -1,13 +1,17 @@
 import allure
 
-from test_api_meme.test_data.credentional import user2
+from test_data.credentional import user2
 
 
 @allure.story('Позитив')
 @allure.title('Проверка статус кода 200 в ответе')
-def test_delete_meme_status_code(get_headers, delete_meme_endpoint, create_new_meme_id):
+def test_delete_meme_status_code(get_headers, delete_meme_endpoint, create_new_meme_id, get_meme_endpoint):
     delete_meme_endpoint.delete_meme(headers=get_headers, new_meme_id=create_new_meme_id)
     delete_meme_endpoint.check_status_code_is_200()
+    get_meme_endpoint.get_meme_id(headers=get_headers, new_meme_id=123456789)
+    get_meme_endpoint.check_status_code_is_404()
+
+
 
 
 @allure.story('Негатив')

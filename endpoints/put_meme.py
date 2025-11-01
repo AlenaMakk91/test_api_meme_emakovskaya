@@ -3,16 +3,18 @@ import logging
 import allure
 import requests
 
-from test_api_meme.config import Base_URL
-from test_api_meme.endpoints.endpoint import Endpoint
+from config import Base_URL
+from endpoints.endpoint import Endpoint
 
 
-class GetMeme(Endpoint):
-    @allure.step('Вызов ендпоинта GET /meme/<id>')
-    def get_meme_id(self, headers, new_meme_id):
-        self.response = requests.get(
+class PutMeme(Endpoint):
+    @allure.step('Вызов ендпоинта PUT /meme/<id>')
+    def put_meme(self, headers, payload, new_meme_id):
+        payload['id'] = new_meme_id
+        self.response = requests.put(
             url=f'{Base_URL}/meme/{new_meme_id}',
-            headers=headers
+            headers=headers,
+            json=payload
         )
         with allure.step('Сохранение респонса в формате json'):
             try:

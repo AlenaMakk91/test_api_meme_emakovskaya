@@ -1,8 +1,8 @@
 import allure
 import requests
 
-from test_api_meme.config import Base_URL
-from test_api_meme.endpoints.endpoint import Endpoint
+from config import Base_URL
+from endpoints.endpoint import Endpoint
 
 
 class DeleteMeme(Endpoint):
