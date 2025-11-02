@@ -20,17 +20,12 @@ def test_get_meme_id_check_json_schema(get_headers, create_new_meme_id, get_meme
     get_meme_endpoint.check_json_schema_in_response(json_schema=json_schema_get_meme_id)
 
 
-@pytest.mark.parametrize(
-    'parameter',
-    [
-        'text', 'url', 'tags', 'info'
-    ]
-)
 @allure.story('Позитив')
 @allure.title('Проверка в ответе сохраненных параметров')
-def test_meme_text_in_response(get_headers, create_new_meme_id, get_meme_endpoint, parameter):
+def test_meme_text_in_response(get_headers, create_new_meme_id, get_meme_endpoint):
     get_meme_endpoint.get_meme_id(headers=get_headers, new_meme_id=create_new_meme_id)
-    get_meme_endpoint.check_parameters_in_response(payload=default_post_payload, parameter=parameter)
+    for parameter in ['text', 'url', 'tags', 'info']:
+        get_meme_endpoint.check_parameters_in_response(payload=default_post_payload, parameter=parameter)
 
 
 @allure.story('Негатив')
@@ -46,3 +41,4 @@ def test_meme_not_found(get_headers, get_meme_endpoint, create_new_meme_id, dele
     meme_not_exist = create_new_meme_id
     delete_meme_endpoint.delete_meme(headers=get_headers, new_meme_id=meme_not_exist)
     get_meme_endpoint.get_meme_id(headers=get_headers, new_meme_id=meme_not_exist)
+    get_meme_endpoint.check_status_code_is_404()

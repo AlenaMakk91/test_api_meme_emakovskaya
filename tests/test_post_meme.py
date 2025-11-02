@@ -25,22 +25,17 @@ def test_post_meme_json_schema(get_headers, post_meme_endpoint):
     post_meme_endpoint.check_json_schema_in_response(json_schema=json_schema_post_meme)
 
 
-@pytest.mark.parametrize(
-    'parameter',
-    [
-        'text', 'url', 'tags', 'info'
-    ]
-)
 @allure.story('Позитив')
 @allure.title('Проверка корректности возвращаемых параметров в ответе')
-def test_post_meme_text_in_response(get_headers, post_meme_endpoint, parameter):
+def test_post_meme_all_parameters_in_response(get_headers, post_meme_endpoint):
     post_meme_endpoint.post_meme(headers=get_headers, payload=default_post_payload)
-    post_meme_endpoint.check_parameters_in_response(payload=default_post_payload, parameter=parameter)
+    for parameter in ['text', 'url', 'tags', 'info']:
+        post_meme_endpoint.check_parameters_in_response(payload=default_post_payload, parameter=parameter)
 
 
 @allure.story('Позитив')
 @allure.title('Проверка значения updated_by в ответе')
-def test_post_meme_info_in_response(get_headers, post_meme_endpoint):
+def test_post_meme_updated_by_in_response(get_headers, post_meme_endpoint):
     post_meme_endpoint.post_meme(headers=get_headers, payload=default_post_payload)
     post_meme_endpoint.check_updated_by_in_response(default_user)
 

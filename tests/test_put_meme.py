@@ -30,24 +30,19 @@ def test_put_meme_json_schema(get_headers, put_meme_endpoint, create_new_meme_id
 
 @allure.story('Позитив')
 @allure.title('Проверка в ответе параметра updated_by')
-def test_put_meme_text_in_response(get_headers, put_meme_endpoint, create_new_meme_id):
+def test_put_meme_updated_by_in_response(get_headers, put_meme_endpoint, create_new_meme_id):
     payload = copy.deepcopy(default_put_payload)
     put_meme_endpoint.put_meme(headers=get_headers, payload=payload, new_meme_id=create_new_meme_id)
     put_meme_endpoint.check_updated_by_in_response(user=default_user)
 
 
-@pytest.mark.parametrize(
-    'parameter',
-    [
-        'text', 'url', 'tags', 'info'
-    ]
-)
 @allure.story('Позитив')
 @allure.title('Проверить что в ответе возвращаются верные параметры')
-def test_parameters_in_response(get_headers, put_meme_endpoint, create_new_meme_id, parameter):
+def test_parameters_in_response(get_headers, put_meme_endpoint, create_new_meme_id):
     payload = copy.deepcopy(default_put_payload)
     put_meme_endpoint.put_meme(headers=get_headers, payload=payload, new_meme_id=create_new_meme_id)
-    put_meme_endpoint.check_parameters_in_response(parameter=parameter, payload=payload)
+    for parameter in ['text', 'url', 'tags', 'info']:
+        put_meme_endpoint.check_parameters_in_response(payload=default_put_payload, parameter=parameter)
 
 
 @pytest.mark.parametrize(
