@@ -1,1 +1,24 @@
+name: Test api meme autotests
 
+on: 
+  workflow_dispatch:
+    inputs: 
+      deployment_target:
+        description: select tests
+        required: true
+        type: choice
+        default: smoke
+        options:
+          - smoke
+          - regression
+          - extendet
+          - all
+
+jobs: 
+  run-tests:
+    runs-on: ubuntu-latest
+    name: run autotests
+    steps:
+      - name: Checkout autotests
+        uses: actions/checkout@v6
+        
