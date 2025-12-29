@@ -11,8 +11,13 @@ on:
         options:
           - smoke
           - regression
-          - extendet
+          - extended
           - all
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
 
 jobs: 
   run-tests:
@@ -21,4 +26,40 @@ jobs:
     steps:
       - name: Checkout autotests
         uses: actions/checkout@v6
-        
+      - name: set up Python environment
+        uses: actions/setup-python@v6
+        with:
+           python-version: '3.13'
+      - name: Install dependencies.
+        run: pip install -r requirements.txt
+      - name: run all tests
+        if: "github.event.inputs.deployment_target == 'all'"
+        run: pytest --alluredir=allure-results
+        continue-on-error: true
+      - name: run smoke tests
+        if: "github.event.inputs.deployment_target == 'smoke'"
+        run: pytest -m smoke --alluredir=allure-results
+        continue-on-error: true
+      - name: run regression tests
+        if: "github.event.inputs.deployment_target == 'regression'"
+        run: pytest -m regression --alluredir=allure-results
+        continue-on-error: true
+      - name: run extended tests
+        if: "github.event.inputs.deployment_target == 'extended'"
+        run: pytest -m extended --alluredir=allure-results
+        continue-on-error: true
+      - name: Install Java
+        uses: actions/setup-java@v5
+        with:
+          distribution: 'microsoft'
+          java-version: '21'
+      - name: Install Allure
+        run: sudo wget https://github.com/allure-framework/allure2/releases/download/2.24.1/allure-2.24.1.tgz && sudo tar -zxvf allure-2.24.1.tgz -C /opt/ && sudo ln -s /opt/allure-2.24.1/bin/allure /usr/bin/allure
+      - name: Generate report
+        run: allure generate -c allure-results -o allure-report
+      - name: save allure-report
+        uses: actions/upload-artifact@v4
+          with:
+            name: allure-report
+            path: allure-report
+            retention-days: 1
