@@ -24,6 +24,10 @@ jobs:
     runs-on: ubuntu-latest
     name: run autotests
     steps:
+      - name: Установка необходимых библиотек
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libkrb5-dev
       - name: Checkout autotests
         uses: actions/checkout@v6
       - name: set up Python environment
