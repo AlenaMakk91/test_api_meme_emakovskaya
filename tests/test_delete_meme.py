@@ -1,8 +1,10 @@
 import allure
+import pytest
 
 from test_data.credentional import user2
 
 
+@pytest.mark.smoke
 @allure.story('Позитив')
 @allure.title('Проверка статус кода 200 в ответе')
 def test_delete_meme_status_code(get_headers, delete_meme_endpoint, create_new_meme_id, get_meme_endpoint):
@@ -12,8 +14,7 @@ def test_delete_meme_status_code(get_headers, delete_meme_endpoint, create_new_m
     get_meme_endpoint.check_status_code_is_404()
 
 
-
-
+@pytest.mark.regression
 @allure.story('Негатив')
 @allure.title('Тест на обязательность авторизации при выполнении запроса')
 def test_delete_meme_status_code_without_authorize(delete_meme_endpoint, create_new_meme_id):
@@ -21,6 +22,7 @@ def test_delete_meme_status_code_without_authorize(delete_meme_endpoint, create_
     delete_meme_endpoint.check_status_code_is_401()
 
 
+@pytest.mark.extended
 @allure.story('Негатив')
 @allure.title('Тест на ошибку 403 при попытке удалить чужой мем')
 def test_delete_meme_forbidden(get_headers, delete_meme_endpoint, create_new_meme_id, generate_headers):
@@ -29,6 +31,7 @@ def test_delete_meme_forbidden(get_headers, delete_meme_endpoint, create_new_mem
     delete_meme_endpoint.check_status_code_is_403()
 
 
+@pytest.mark.extended
 @allure.story('Негатив')
 @allure.title('Проверка ошибки 404 если meme не существует в системе')
 def test_delete_meme_not_found(get_headers, delete_meme_endpoint):

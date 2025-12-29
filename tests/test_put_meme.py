@@ -19,6 +19,7 @@ from test_data.payloads_for_post import (
 from test_data.payloads_for_put import default_put_payload
 
 
+@pytest.mark.smoke
 @allure.story('Позитив')
 @allure.title('Проверка схемы json')
 def test_put_meme_json_schema(get_headers, put_meme_endpoint, create_new_meme_id):
@@ -28,6 +29,7 @@ def test_put_meme_json_schema(get_headers, put_meme_endpoint, create_new_meme_id
     put_meme_endpoint.check_json_schema_in_response(json_schema=json_schema_put_meme)
 
 
+@pytest.mark.smoke
 @allure.story('Позитив')
 @allure.title('Проверка в ответе параметра updated_by')
 def test_put_meme_updated_by_in_response(get_headers, put_meme_endpoint, create_new_meme_id):
@@ -36,6 +38,7 @@ def test_put_meme_updated_by_in_response(get_headers, put_meme_endpoint, create_
     put_meme_endpoint.check_updated_by_in_response(user=default_user)
 
 
+@pytest.mark.regression
 @allure.story('Позитив')
 @allure.title('Проверить что в ответе возвращаются верные параметры')
 def test_parameters_in_response(get_headers, put_meme_endpoint, create_new_meme_id):
@@ -45,6 +48,7 @@ def test_parameters_in_response(get_headers, put_meme_endpoint, create_new_meme_
         put_meme_endpoint.check_parameters_in_response(payload=default_put_payload, parameter=parameter)
 
 
+@pytest.mark.extended
 @pytest.mark.parametrize(
     'parameter',
     [
@@ -60,6 +64,7 @@ def test_update_meme_with_empty_parameters(get_headers, create_new_meme_id, para
     put_meme_endpoint.check_parameters_in_response(parameter=parameter, payload=payload)
 
 
+@pytest.mark.regression
 @allure.story('Негатив')
 @allure.title('Тест на обязательность авторизации при выполнении запроса')
 def test_put_meme_status_code_without_authorize(put_meme_endpoint, create_new_meme_id):
@@ -68,6 +73,7 @@ def test_put_meme_status_code_without_authorize(put_meme_endpoint, create_new_me
     put_meme_endpoint.check_status_code_is_401()
 
 
+@pytest.mark.extended
 @pytest.mark.parametrize(
     'payload',
     [
@@ -84,6 +90,7 @@ def test_put_meme_incorrect_payload(get_headers, put_meme_endpoint, create_new_m
     put_meme_endpoint.check_status_code_is_400()
 
 
+@pytest.mark.smoke
 @allure.story('Негатив')
 @allure.title('Тест на ошибку 403 при попытке изменить чужой мем')
 def test_put_meme_forbidden(put_meme_endpoint, create_new_meme_id, generate_headers):

@@ -17,6 +17,7 @@ from test_data.payloads_for_post import (
 )
 
 
+@pytest.mark.smoke
 @allure.story('Позитив')
 @allure.title('Проверка схемы json')
 def test_post_meme_json_schema(get_headers, post_meme_endpoint):
@@ -25,6 +26,7 @@ def test_post_meme_json_schema(get_headers, post_meme_endpoint):
     post_meme_endpoint.check_json_schema_in_response(json_schema=json_schema_post_meme)
 
 
+@pytest.mark.smoke
 @allure.story('Позитив')
 @allure.title('Проверка корректности возвращаемых параметров в ответе')
 def test_post_meme_all_parameters_in_response(get_headers, post_meme_endpoint):
@@ -33,6 +35,7 @@ def test_post_meme_all_parameters_in_response(get_headers, post_meme_endpoint):
         post_meme_endpoint.check_parameters_in_response(payload=default_post_payload, parameter=parameter)
 
 
+@pytest.mark.regression
 @allure.story('Позитив')
 @allure.title('Проверка значения updated_by в ответе')
 def test_post_meme_updated_by_in_response(get_headers, post_meme_endpoint):
@@ -40,6 +43,7 @@ def test_post_meme_updated_by_in_response(get_headers, post_meme_endpoint):
     post_meme_endpoint.check_updated_by_in_response(default_user)
 
 
+@pytest.mark.regression
 @allure.story('Негатив')
 @allure.title('Тест на обязательность авторизации при выполнении запроса')
 def test_post_meme_status_code_without_authorize(post_meme_endpoint):
@@ -47,6 +51,7 @@ def test_post_meme_status_code_without_authorize(post_meme_endpoint):
     post_meme_endpoint.check_status_code_is_401()
 
 
+@pytest.mark.extended
 @pytest.mark.parametrize(
     'payload',
     [
