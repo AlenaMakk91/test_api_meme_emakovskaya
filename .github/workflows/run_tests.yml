@@ -20,57 +20,11 @@ permissions:
   id-token: write
 
 jobs: 
-  download-history:
-    runs-on: ubuntu-latest
-    name: Download history
-    steps:
-      - name: setup Python
-        uses: actions/setup-python@v4
-        with:
-          python-version: "3.10"
-      - run: >
-          ARTIFACT_ID=$(curl -L 
-          -H "Accept: application/vnd.github+json" 
-          -H "X-GitHub-Api-Version: 2022-11-28" 
-          "https://api.github.com/repos/AlenaMakk91/test_api_meme_emakovskaya/actions/artifacts?name=allure-results" 
-          | python -c "import sys, json; print(json.load(sys.stdin)['artifacts'][0]['id']);") 
-          &&
-          curl -L 
-          -H "Accept: application/vnd.github+json" 
-          -H "Authorization: Bearer ${{ secrets.TOKEN }}" 
-          -H "X-GitHub-Api-Version: 2022-11-28" 
-          https://api.github.com/repos/AlenaMakk91/test_api_meme_emakovskaya/actions/artifacts/$ARTIFACT_ID/zip 
-          -o artifacts.zip &&
-          REPORT_ID=$(curl -L 
-          -H "Accept: application/vnd.github+json" 
-          -H "X-GitHub-Api-Version: 2022-11-28" 
-          "https://api.github.com/repos/AlenaMakk91/test_api_meme_emakovskaya/actions/artifacts?name=github-pages" 
-          | python -c "import sys, json; print(json.load(sys.stdin)['artifacts'][0]['id']);") 
-          &&
-          curl -L 
-          -H "Accept: application/vnd.github+json" 
-          -H "Authorization: Bearer ${{ secrets.TOKEN }}" 
-          -H "X-GitHub-Api-Version: 2022-11-28" 
-          https://api.github.com/repos/AlenaMakk91/test_api_meme_emakovskaya/actions/artifacts/$REPORT_ID/zip 
-          -o pages.zip
-        continue-on-error: true
-      - run: mkdir allure-results && unzip artifacts.zip -d allure-results
-        continue-on-error: true
-      - run: mkdir old_pages pages_history && unzip pages.zip -d old_pages && tar -xvf old_pages/artifact.tar -C pages_history
-        continue-on-error: true
-      - run: cp pages_history/history/* allure-results && cp -r pages_history/history allure-results
-        continue-on-error: true
-      - name: Store allure history
-        uses: actions/upload-artifact@v4
-        with:
-          name: allure-results
-          path:
-            allure-results
-          retention-days: 1
+  
+      
 
   Run-tests:
     runs-on: ubuntu-latest
-    needs: download-history
     name: run autotests
     steps:
       - name: Установка необходимых библиотек
@@ -101,6 +55,13 @@ jobs:
         if: "github.event.inputs.deployment_target == 'extended'"
         run: pytest -m extended --alluredir=allure-results
         continue-on-error: true
+      - name: Store allure results
+        uses: actions/upload-artifact@v4
+        with:
+          name: allure-results
+          path:
+            allure-results
+          retention-days: 1
 
 
   generate-report:
