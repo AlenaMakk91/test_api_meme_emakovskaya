@@ -27,7 +27,7 @@ jobs:
       - name: setup Python
         uses: actions/setup-python@v4
         with:
-          python-version: "3.13"
+          python-version: "3.12"
       - run: >
           ARTIFACT_ID=$(curl -L
           -H "Accept: application/vnd.github+json"
@@ -59,9 +59,9 @@ jobs:
       - name: Store allure history
         uses: actions/upload-artifact@v6
         with:
-          name: allure-result
+          name: allure-results
           path:
-            allure-result
+            allure-results
           retention-days: 1
 
 
@@ -79,7 +79,7 @@ jobs:
       - name: set up Python environment
         uses: actions/setup-python@v4
         with:
-          python-version: '3.13'
+          python-version: '3.12'
       - name: Install dependencies
         run: pip install -r requirements.txt
       - name: Download all workflow run artifacts
