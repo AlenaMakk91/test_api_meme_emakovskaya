@@ -59,7 +59,7 @@ jobs:
       - name: Store allure history
         uses: actions/upload-artifact@v6
         with:
-          name: allure-results-${{ github.run_id }}
+          name: allure-results
           path:
             allure-results
           retention-days: 1
@@ -101,7 +101,7 @@ jobs:
         run: pytest -m extended --alluredir=allure-results
         continue-on-error: true
       - name: Store allure results
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: allure-results
           path: allure-results
