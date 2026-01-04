@@ -59,9 +59,9 @@ jobs:
       - name: Store allure history
         uses: actions/upload-artifact@v6
         with:
-          name: allure-results
+          name: allure-result
           path:
-            allure-results
+            allure-result
           retention-days: 1
 
 
@@ -104,7 +104,7 @@ jobs:
         uses: actions/upload-artifact@v6
         with:
           name: allure-results
-          path: allure-results-new
+          path: allure-results
           retention-days: 1
 
   generate-report:
