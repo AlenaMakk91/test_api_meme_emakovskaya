@@ -124,7 +124,7 @@ jobs:
           sudo ln -s /opt/allure-2.24.1/bin/allure /usr/bin/allure
       - name: Download all workflow run artifacts
         uses: actions/download-artifact@v4
-      - run: allure generate -c allure-results allure-results-new
+      - run: allure generate -c allure-results allure-results-new -o _site
       - name: Store generated report
         uses: actions/upload-artifact@v6
         with:
