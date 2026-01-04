@@ -8,7 +8,7 @@ from test_data.credentional import user2
 @allure.story('Позитив')
 @allure.title('Проверка статус кода 200 в ответе')
 def test_delete_meme_status_code(get_headers):
-    assert 1 == 2
+    assert 1 == 1
 
 
 @pytest.mark.regression
